@@ -69,7 +69,7 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF8F0))
+            .background(Color.White)
     ) {
         Column(
             modifier = Modifier
@@ -152,8 +152,8 @@ fun LoginScreen(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFFE0E0E0),
                     unfocusedBorderColor = Color(0xFFE0E0E0),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color(0xFFFFF8F0),
+                    unfocusedContainerColor = Color(0xFFFFF8F0),
                     errorBorderColor = Color(0xFFD32F2F),
                     errorContainerColor = Color.White
                 )

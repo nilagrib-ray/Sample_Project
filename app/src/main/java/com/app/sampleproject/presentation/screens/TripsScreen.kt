@@ -18,8 +18,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.DoubleArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -107,14 +107,16 @@ fun TripsScreen(
                         Icon(
                             imageVector = Icons.Default.Refresh,
                             contentDescription = "Refresh",
-                            tint = Color.White
+                            tint = Color.White,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     IconButton(onClick = { showLogoutDialog = true }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Logout,
                             contentDescription = "Logout",
-                            tint = Color.White
+                            tint = Color.White,
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                 },
@@ -237,7 +239,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -249,7 +251,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(240.dp)
-                        .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)),
+                        .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
                     contentScale = ContentScale.Crop
                 )
 
@@ -279,7 +281,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
                         }
 
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            imageVector = Icons.Default.DoubleArrow,
                             contentDescription = "to",
                             tint = Color(0xFFFF6600),
                             modifier = Modifier.size(28.dp)
@@ -309,7 +311,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
                     Text(
                         text = trip.tripName,
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.Normal,
                         color = Color.Black
                     )
                 }
@@ -330,6 +332,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
+                        fontStyle = FontStyle.Italic,
                         color = Color.Black
                     )
                 }
@@ -352,6 +355,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
+                            fontStyle = FontStyle.Italic,
                             color = Color.Black
                         )
                     }
@@ -365,7 +369,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
 fun NextTripCard(trip: TripDomain) {
     Card(
         modifier = Modifier.width(280.dp),
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -373,7 +377,7 @@ fun NextTripCard(trip: TripDomain) {
             if (!trip.location.isNullOrEmpty()) {
                 Text(
                     text = trip.location,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.Black,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
@@ -388,7 +392,7 @@ fun NextTripCard(trip: TripDomain) {
                     .fillMaxWidth()
                     .height(200.dp)
                     .padding(horizontal = 16.dp)
-                    .clip(RoundedCornerShape(16.dp)),
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop
             )
 
@@ -416,7 +420,7 @@ fun NextTripCard(trip: TripDomain) {
                 }
 
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    imageVector = Icons.Default.DoubleArrow,
                     contentDescription = "to",
                     tint = Color(0xFFFF6600),
                     modifier = Modifier.size(24.dp)
