@@ -130,7 +130,7 @@ fun TripsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFFFF8F0))
+                .background(Color(0xFFFAFAFA))
         ) {
             if (uiState.isLoading) {
                 CircularProgressIndicator(
@@ -206,7 +206,7 @@ fun TripsScreen(
                         .fillMaxWidth()
                         .padding(16.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFFCE4EC)
+                        containerColor = Color(0xFFF5F5F5)
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
@@ -258,7 +258,7 @@ fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(0xFFFFF3E0))
+                        .background(Color.White)
                         .padding(20.dp)
                 ) {
                     Row(

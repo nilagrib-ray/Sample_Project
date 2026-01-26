@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.PersonOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,9 +94,9 @@ fun LoginScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFFFCE4EC)
+                        containerColor = Color(0xFFF5F5F5)
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(10.dp)
                 ) {
                     Row(
                         modifier = Modifier
@@ -104,7 +105,7 @@ fun LoginScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Error,
+                            imageVector = Icons.Default.ErrorOutline,
                             contentDescription = "Error",
                             tint = Color(0xFFD32F2F),
                             modifier = Modifier.size(24.dp)
@@ -148,12 +149,12 @@ fun LoginScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFE0E0E0),
-                    unfocusedBorderColor = Color(0xFFE0E0E0),
-                    focusedContainerColor = Color(0xFFFFF8F0),
-                    unfocusedContainerColor = Color(0xFFFFF8F0),
+                    focusedBorderColor = Color(0xFFFAFAFA),
+                    unfocusedBorderColor = Color(0xFFFAFAFA),
+                    focusedContainerColor = Color(0xFFFAFAFA),
+                    unfocusedContainerColor = Color(0xFFFAFAFA),
                     errorBorderColor = Color(0xFFD32F2F),
                     errorContainerColor = Color.White
                 )
@@ -180,12 +181,12 @@ fun LoginScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFE0E0E0),
-                    unfocusedBorderColor = Color(0xFFE0E0E0),
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
+                    focusedBorderColor = Color(0xFFFAFAFA),
+                    unfocusedBorderColor = Color(0xFFFAFAFA),
+                    focusedContainerColor = Color(0xFFFAFAFA),
+                    unfocusedContainerColor = Color(0xFFFAFAFA),
                     errorBorderColor = Color(0xFFD32F2F),
                     errorContainerColor = Color.White
                 )
@@ -215,9 +216,9 @@ fun LoginScreen(
                                 Color(0xFFFF0099)
                             )
                         ),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(10.dp)
                     ),
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
                     contentColor = Color.White
