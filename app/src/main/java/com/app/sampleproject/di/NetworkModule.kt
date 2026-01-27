@@ -16,8 +16,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = ""
-    private const val APP_TOKEN = ""
+    private const val BASE_URL = "https://partyharddev.wpenginepowered.com/wp-json/"
+    private const val APP_TOKEN = "1KPGaQRWygFCc47zUlxRyQrjTC9UMAy6PoL6JgyCwyPpY9qUErkidTuMzhaazSIHf3Vu1shS3aMP4EI7"
 
     @Provides
     @Singleton
