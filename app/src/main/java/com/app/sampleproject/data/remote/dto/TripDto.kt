@@ -12,19 +12,32 @@ data class TripDto(
     @SerializedName("package_title") val packageTitle: String?,
     @SerializedName("booking_id") val bookingId: Int?,
     @SerializedName("booking_title") val bookingTitle: String?,
+    @SerializedName("owner_booking") val ownerBooking: Boolean?,
+    @SerializedName("type") val type: String?,
+    @SerializedName("description") val description: String?,
     @SerializedName("arrival_date") val arrivalDate: String?,
+    @SerializedName("arrival_time") val arrivalTime: String?,
     @SerializedName("departure_date") val departureDate: String?,
+    @SerializedName("departure_time") val departureTime: String?,
+    @SerializedName("hotel") val hotel: String?,
+    @SerializedName("product_id") val productId: Int?,
+    @SerializedName("order_id") val orderId: String?,
     @SerializedName("featured_image") val featuredImage: String?,
     @SerializedName("image") val image: String?,
     @SerializedName("square_image") val squareImage: String?,
-    @SerializedName("hotel") val hotel: String?,
+    @SerializedName("travellers") val travellers: String?,
+    @SerializedName("discount_total") val discountTotal: String?,
+    @SerializedName("booking_total") val bookingTotal: String?,
+    @SerializedName("booking_balance") val bookingBalance: String?,
+    @SerializedName("currency_symbol") val currencySymbol: String?,
     @SerializedName("destination") val destination: List<DestinationDto>?
 )
 
 data class DestinationDto(
     @SerializedName("id") val id: Int?,
     @SerializedName("name") val name: String?,
-    @SerializedName("slug") val slug: String?
+    @SerializedName("slug") val slug: String?,
+    @SerializedName("description_featured_image_url") val descriptionFeaturedImageUrl: String?
 )
 
 data class CategoryDto(

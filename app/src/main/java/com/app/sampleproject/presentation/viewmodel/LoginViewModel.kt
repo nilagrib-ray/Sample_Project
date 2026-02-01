@@ -3,7 +3,6 @@ package com.app.sampleproject.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.sampleproject.core.utils.Resource
-import com.app.sampleproject.domain.usecase.LoginUseCase
 import com.app.sampleproject.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +23,6 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -49,7 +47,7 @@ class LoginViewModel @Inject constructor(
         if (!validateInput()) return
 
         viewModelScope.launch {
-            loginUseCase(_uiState.value.email, _uiState.value.password).collect { resource ->
+            authRepository.login(_uiState.value.email, _uiState.value.password).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         _uiState.value = _uiState.value.copy(
@@ -58,7 +56,6 @@ class LoginViewModel @Inject constructor(
                         )
                     }
                     is Resource.Success -> {
-                        authRepository.saveUserData(resource.data)
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
                             isSuccess = true

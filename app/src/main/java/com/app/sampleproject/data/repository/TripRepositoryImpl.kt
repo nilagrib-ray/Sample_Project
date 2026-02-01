@@ -14,12 +14,12 @@ class TripRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : TripRepository {
 
-    override suspend fun getTrips(userId: String, userType: String): Flow<Resource<List<TripDomain>>> = flow {
+    override suspend fun getTrips(userId: String): Flow<Resource<List<TripDomain>>> = flow {
         try {
             emit(Resource.Loading)
-            Log.d("TripRepository", "Fetching trips for userId: $userId, userType: $userType")
+            Log.d("TripRepository", "Fetching trips for userId: $userId")
 
-            val response = apiService.getTrips(userId, userType)
+            val response = apiService.getTrips(userId)
 
             Log.d("TripRepository", "Response code: ${response.code()}")
             Log.d("TripRepository", "Response body: ${response.body()}")
@@ -73,7 +73,10 @@ class TripRepositoryImpl @Inject constructor(
                             TripDomain(
                                 tripId = post.id?.toString() ?: "0",
                                 tripName = post.title ?: "Unnamed Trip",
-                                tripImage = post.image ?: post.squareImage,
+                                featuredImage = null,
+                                image = post.image,
+                                squareImage = post.squareImage,
+                                destinationImage = null,
                                 startDate = post.startDate ?: "",
                                 endDate = post.endDate ?: "",
                                 location = category.categoryName,

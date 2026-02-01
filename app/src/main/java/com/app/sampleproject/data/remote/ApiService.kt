@@ -10,10 +10,22 @@ interface ApiService {
 
     @GET("mobileapp/v1/trips")
     suspend fun getTrips(
-        @Query("user_id") userId: String,
-        @Query("user_type") userType: String
+        @Query("user_id") userId: String
     ): Response<TripsResponse>
 
     @GET("mobileapp/v1/upcoming-trips")
     suspend fun getUpcomingTrips(): Response<List<CategoryDto>>
+
+    @GET("mobileapp/v1/user-info/{id}")
+    suspend fun getUserInfo(
+        @Path("id") userId: String
+    ): Response<UserInfoResponse>
+
+    @GET("mobileapp/v1/get-contacts")
+    suspend fun getContacts(
+        @Query("user_id") userId: String
+    ): Response<ContactsResponse>
+
+    @GET("mobileapp/v1/whatsapp-business-number")
+    suspend fun getWhatsAppBusinessNumber(): Response<WhatsAppNumberResponse>
 }

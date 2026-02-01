@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.sampleproject.core.utils.Resource
 import com.app.sampleproject.domain.model.TripDomain
 import com.app.sampleproject.domain.repository.AuthRepository
-import com.app.sampleproject.domain.usecase.GetTripsUseCase
+import com.app.sampleproject.domain.repository.TripRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +24,7 @@ data class TripsUiState(
 
 @HiltViewModel
 class TripsViewModel @Inject constructor(
-    private val getTripsUseCase: GetTripsUseCase,
+    private val tripRepository: TripRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -51,7 +51,7 @@ class TripsViewModel @Inject constructor(
 
             _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 
-            getTripsUseCase(userData.userId, userData.userType).collect { resource ->
+            tripRepository.getTrips(userData.userId).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         Log.d("TripsViewModel", "Loading trips...")
