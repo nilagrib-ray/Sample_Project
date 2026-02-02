@@ -20,3 +20,9 @@ data class ContactsDomain(
     val phtContactEmail: String?,
     val meetingPointDetails: String?
 )
+
+data class KeyContact(
+    val name: String,
+    val subtitle: String,
+    val contactInfo: String? = null
+)

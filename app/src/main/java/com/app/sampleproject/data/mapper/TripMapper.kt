@@ -1,6 +1,8 @@
 package com.app.sampleproject.data.mapper
 
+import com.app.sampleproject.data.remote.dto.CategoryDto
 import com.app.sampleproject.data.remote.dto.TripDto
+import com.app.sampleproject.domain.model.DestinationCategory
 import com.app.sampleproject.domain.model.TripDomain
 
 fun TripDto.toDomain(): TripDomain {
@@ -27,5 +29,19 @@ fun TripDto.toDomain(): TripDomain {
 }
 
 fun List<TripDto>.toDomain(): List<TripDomain> {
+    return this.map { it.toDomain() }
+}
+
+fun CategoryDto.toDomain(): DestinationCategory {
+    return DestinationCategory(
+        categoryId = categoryId ?: 0,
+        categoryName = categoryName ?: "",
+        destUrl = destUrl ?: "",
+        imageUrl = descriptionFeaturedImageUrl ?: posts?.firstOrNull()?.image ?: "",
+        squareImageUrl = posts?.firstOrNull()?.squareImage ?: ""
+    )
+}
+
+fun List<CategoryDto>.toDestinationCategories(): List<DestinationCategory> {
     return this.map { it.toDomain() }
 }

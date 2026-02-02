@@ -29,10 +29,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.app.sampleproject.presentation.screens.LoginScreen
-import com.app.sampleproject.presentation.screens.MessagesScreen
-import com.app.sampleproject.presentation.screens.ProfileScreen
-import com.app.sampleproject.presentation.screens.TripsScreen
+import com.app.sampleproject.presentation.login.LoginScreen
+import com.app.sampleproject.presentation.messages.MessagesScreen
+import com.app.sampleproject.presentation.profile.ProfileScreen
+import com.app.sampleproject.presentation.trips.TripsScreen
 
 sealed class Screen(val route: String) {
     object Login : Screen("login")

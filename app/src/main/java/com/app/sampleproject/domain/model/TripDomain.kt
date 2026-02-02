@@ -16,11 +16,12 @@ data class TripDomain(
     val currencySymbol: String? = null,
     val hotel: String? = null,
     val type: String? = null
-) {
-    fun getUpcomingTripImage(): String? {
-        return destinationImage ?: image ?: featuredImage ?: squareImage
-    }
-    fun getNextTripImage(): String? {
-        return squareImage ?: destinationImage ?: image ?: featuredImage
-    }
-}
+)
+
+data class DestinationCategory(
+    val categoryId: Int,
+    val categoryName: String,
+    val destUrl: String,
+    val imageUrl: String,
+    val squareImageUrl: String
+)

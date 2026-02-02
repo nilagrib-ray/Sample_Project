@@ -1,4 +1,4 @@
-package com.app.sampleproject.presentation.viewmodel
+package com.app.sampleproject.presentation.profile
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -11,18 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-data class ProfileUiState(
-    val isLoading: Boolean = false,
-    val userId: String = "",
-    val userName: String? = null,
-    val userEmail: String = "",
-    val firstName: String? = null,
-    val lastName: String? = null,
-    val profileImage: String? = null,
-    val userType: String? = null,
-    val errorMessage: String? = null
-)
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(

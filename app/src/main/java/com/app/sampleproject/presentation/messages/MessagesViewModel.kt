@@ -1,12 +1,11 @@
-package com.app.sampleproject.presentation.viewmodel
+package com.app.sampleproject.presentation.messages
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.sampleproject.core.utils.Resource
 import com.app.sampleproject.domain.model.ContactDomain
-import com.app.sampleproject.domain.repository.AuthRepository
-import com.app.sampleproject.domain.repository.ContactRepository
+import com.app.sampleproject.domain.usecase.GetContactsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,20 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class MessagesUiState(
-    val isLoading: Boolean = false,
-    val destinationName: String = "",
-    val reps: List<ContactDomain> = emptyList(),
-    val emergencyNumber: String = "",
-    val globalEmergencyNumber: String = "447984290932",
-    val phtContactPhone: String = "0203 627 4443",
-    val errorMessage: String? = null
-)
-
 @HiltViewModel
 class MessagesViewModel @Inject constructor(
-    private val contactRepository: ContactRepository,
-    private val authRepository: AuthRepository
+    private val getContactsUseCase: GetContactsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MessagesUiState())
@@ -39,21 +27,9 @@ class MessagesViewModel @Inject constructor(
 
     fun loadContacts() {
         viewModelScope.launch {
-            val userData = authRepository.getUserData()
-
-            Log.d("MessagesViewModel", "User data: $userData")
-
-            if (userData == null) {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    errorMessage = "User data not found. Please login again."
-                )
-                return@launch
-            }
-
             _uiState.value = _uiState.value.copy(isLoading = true, errorMessage = null)
 
-            contactRepository.getContacts(userData.userId).collect { resource ->
+            getContactsUseCase().collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         Log.d("MessagesViewModel", "Loading contacts...")

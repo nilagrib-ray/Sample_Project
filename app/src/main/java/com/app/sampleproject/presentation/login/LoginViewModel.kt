@@ -1,9 +1,10 @@
-package com.app.sampleproject.presentation.viewmodel
+package com.app.sampleproject.presentation.login
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.sampleproject.core.utils.Resource
-import com.app.sampleproject.domain.repository.AuthRepository
+import com.app.sampleproject.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,19 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class LoginUiState(
-    val email: String = "",
-    val password: String = "",
-    val emailError: String? = null,
-    val passwordError: String? = null,
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val isSuccess: Boolean = false
-)
-
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -47,7 +38,7 @@ class LoginViewModel @Inject constructor(
         if (!validateInput()) return
 
         viewModelScope.launch {
-            authRepository.login(_uiState.value.email, _uiState.value.password).collect { resource ->
+            loginUseCase(_uiState.value.email, _uiState.value.password).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
                         _uiState.value = _uiState.value.copy(
@@ -81,7 +72,7 @@ class LoginViewModel @Inject constructor(
         if (email.isEmpty()) {
             _uiState.value = _uiState.value.copy(emailError = "Email is required")
             isValid = false
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _uiState.value = _uiState.value.copy(emailError = "Invalid email format")
             isValid = false
         }

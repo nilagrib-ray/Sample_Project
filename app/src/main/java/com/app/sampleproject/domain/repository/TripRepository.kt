@@ -1,10 +1,10 @@
 package com.app.sampleproject.domain.repository
 
-import com.app.sampleproject.domain.model.TripDomain
-import com.app.sampleproject.core.utils.Resource
-import kotlinx.coroutines.flow.Flow
+import com.app.sampleproject.data.remote.dto.CategoryDto
+import com.app.sampleproject.data.remote.dto.TripsResponse
+import retrofit2.Response
 
 interface TripRepository {
-    suspend fun getTrips(userId: String): Flow<Resource<List<TripDomain>>>
-    suspend fun getUpcomingTrips(): Flow<Resource<List<TripDomain>>>
+    suspend fun getTrips(userId: String): Response<TripsResponse>
+    suspend fun getUpcomingTrips(): Response<List<CategoryDto>>
 }

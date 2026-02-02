@@ -1,9 +1,10 @@
 package com.app.sampleproject.domain.repository
 
-import com.app.sampleproject.core.utils.Resource
-import com.app.sampleproject.domain.model.ContactsDomain
-import kotlinx.coroutines.flow.Flow
+import com.app.sampleproject.data.remote.dto.ContactsResponse
+import com.app.sampleproject.data.remote.dto.WhatsAppNumberResponse
+import retrofit2.Response
 
 interface ContactRepository {
-    suspend fun getContacts(userId: String): Flow<Resource<ContactsDomain>>
+    suspend fun getContacts(userId: String): Response<ContactsResponse>
+    suspend fun getWhatsAppNumber(): Response<WhatsAppNumberResponse>
 }

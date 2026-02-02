@@ -43,7 +43,9 @@ data class DestinationDto(
 data class CategoryDto(
     @SerializedName("category_id") val categoryId: Int?,
     @SerializedName("category_name") val categoryName: String?,
-    @SerializedName("posts") val posts: List<PostDto>?
+    @SerializedName("dest_url") val destUrl: String?,
+    @SerializedName("posts") val posts: List<PostDto>?,
+    @SerializedName("description_featured_image_url") val descriptionFeaturedImageUrl: String?
 )
 
 data class PostDto(
@@ -51,6 +53,7 @@ data class PostDto(
     @SerializedName("title") val title: String?,
     @SerializedName("start_date") val startDate: String?,
     @SerializedName("end_date") val endDate: String?,
+    @SerializedName("permalink") val permalink: String?,
     @SerializedName("image") val image: String?,
     @SerializedName("square_image") val squareImage: String?
 )
