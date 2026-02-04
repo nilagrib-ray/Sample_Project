@@ -28,4 +28,19 @@ interface ApiService {
 
     @GET("mobileapp/v1/whatsapp-business-number")
     suspend fun getWhatsAppBusinessNumber(): Response<WhatsAppNumberResponse>
+
+    @GET("mobileapp/v1/trip-details")
+    suspend fun getTripDetails(
+        @Query("package_id") packageId: Int?,
+        @Query("booking_id") bookingId: Int?,
+        @Query("order_id") orderId: String?,
+        @Query("user_id") userId: String
+    ): Response<TripDetailsResponse>
+
+    @GET("mobileapp/v1/get_allocations_itinerary")
+    suspend fun getItinerary(
+        @Query("booking_id") bookingId: Int,
+        @Query("event_date") eventDate: String,
+        @Query("user_id") userId: String
+    ): Response<ItineraryResponse>
 }

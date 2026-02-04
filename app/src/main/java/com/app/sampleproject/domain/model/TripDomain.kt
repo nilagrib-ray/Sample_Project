@@ -2,6 +2,9 @@ package com.app.sampleproject.domain.model
 
 data class TripDomain(
     val tripId: String,
+    val packageId: Int?,
+    val bookingId: Int?,
+    val orderId: String?,
     val tripName: String,
     val featuredImage: String?,
     val image: String?,

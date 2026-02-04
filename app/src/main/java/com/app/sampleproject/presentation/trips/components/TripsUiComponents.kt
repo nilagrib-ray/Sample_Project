@@ -49,14 +49,19 @@ fun SectionHeader(title: String) {
 }
 
 @Composable
-fun UpcomingTripCard(trip: TripDomain, showDaysToGo: Boolean = true) {
+fun UpcomingTripCard(
+    trip: TripDomain,
+    showDaysToGo: Boolean = true,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        onClick = onClick
     ) {
         Box {
             Column {
@@ -288,7 +293,7 @@ fun DestinationCard(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
-                modifier = androidx.compose.ui.Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(12.dp))

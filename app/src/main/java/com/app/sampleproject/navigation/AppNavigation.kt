@@ -2,6 +2,8 @@ package com.app.sampleproject.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Message
+import androidx.compose.material.icons.automirrored.outlined.Message
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.FlightTakeoff
 import androidx.compose.material.icons.filled.Message
@@ -25,13 +27,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.app.sampleproject.presentation.login.LoginScreen
 import com.app.sampleproject.presentation.messages.MessagesScreen
 import com.app.sampleproject.presentation.profile.ProfileScreen
+import com.app.sampleproject.presentation.tripdetails.TripDetailsScreen
 import com.app.sampleproject.presentation.trips.TripsScreen
 
 sealed class Screen(val route: String) {
@@ -39,6 +44,11 @@ sealed class Screen(val route: String) {
     object Messages : Screen("messages")
     object Trips : Screen("trips")
     object Profile : Screen("profile")
+    object TripDetails : Screen("trip_details/{packageId}/{bookingId}/{orderId}") {
+        fun createRoute(packageId: Int?, bookingId: Int?, orderId: String?): String {
+            return "trip_details/${packageId ?: 0}/${bookingId ?: 0}/${orderId ?: "null"}"
+        }
+    }
 }
 
 data class BottomNavItem(
@@ -52,8 +62,8 @@ val bottomNavItems = listOf(
     BottomNavItem(
         route = Screen.Messages.route,
         title = "Messages",
-        selectedIcon = Icons.Filled.Message,
-        unselectedIcon = Icons.Outlined.Message
+        selectedIcon = Icons.AutoMirrored.Filled.Message,
+        unselectedIcon = Icons.AutoMirrored.Outlined.Message
     ),
     BottomNavItem(
         route = Screen.Trips.route,
@@ -98,6 +108,26 @@ fun AppNavigation(
 
         composable(Screen.Profile.route) {
             MainScreen(navController = navController, startRoute = Screen.Profile.route)
+        }
+
+        composable(
+            route = Screen.TripDetails.route,
+            arguments = listOf(
+                navArgument("packageId") { type = NavType.IntType },
+                navArgument("bookingId") { type = NavType.IntType },
+                navArgument("orderId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val packageId = backStackEntry.arguments?.getInt("packageId")
+            val bookingId = backStackEntry.arguments?.getInt("bookingId")
+            val orderId = backStackEntry.arguments?.getString("orderId")
+
+            TripDetailsScreen(
+                packageId = if (packageId == 0) null else packageId,
+                bookingId = if (bookingId == 0) null else bookingId,
+                orderId = if (orderId == "null") null else orderId,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }
@@ -174,6 +204,11 @@ fun MainScreen(
                         navController.navigate(Screen.Login.route) {
                             popUpTo(0) { inclusive = true }
                         }
+                    },
+                    onTripClick = { packageId, bookingId, orderId ->
+                        navController.navigate(
+                            Screen.TripDetails.createRoute(packageId, bookingId, orderId)
+                        )
                     }
                 )
             }

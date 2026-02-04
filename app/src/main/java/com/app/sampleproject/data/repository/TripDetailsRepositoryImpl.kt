@@ -1,30 +1,20 @@
 package com.app.sampleproject.data.repository
 
 import com.app.sampleproject.data.remote.ApiService
-import com.app.sampleproject.data.remote.dto.CategoryDto
 import com.app.sampleproject.data.remote.dto.ItineraryResponse
 import com.app.sampleproject.data.remote.dto.TripDetailsResponse
-import com.app.sampleproject.data.remote.dto.TripsResponse
-import com.app.sampleproject.domain.repository.TripRepository
+import com.app.sampleproject.domain.repository.TripDetailsRepository
 import retrofit2.Response
 import javax.inject.Inject
 
-class TripRepositoryImpl @Inject constructor(
+class TripDetailsRepositoryImpl @Inject constructor(
     private val apiService: ApiService
-) : TripRepository {
-
-    override suspend fun getTrips(userId: String): Response<TripsResponse> {
-        return apiService.getTrips(userId)
-    }
-
-    override suspend fun getUpcomingTrips(): Response<List<CategoryDto>> {
-        return apiService.getUpcomingTrips()
-    }
+) : TripDetailsRepository {
 
     override suspend fun getTripDetails(
-        packageId: Int?,
-        bookingId: Int?,
-        orderId: String?,
+        packageId: Int,
+        bookingId: Int,
+        orderId: String,
         userId: String
     ): Response<TripDetailsResponse> {
         return apiService.getTripDetails(packageId, bookingId, orderId, userId)

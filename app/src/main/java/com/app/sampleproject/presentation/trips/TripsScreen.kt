@@ -41,12 +41,12 @@ import com.app.sampleproject.presentation.trips.components.DestinationCard
 import com.app.sampleproject.presentation.trips.components.SectionHeader
 import com.app.sampleproject.presentation.trips.components.UpcomingTripCard
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TripsScreen(
     viewModel: TripsViewModel = hiltViewModel(),
-    onLogout: () -> Unit = {}
+    onLogout: () -> Unit = {},
+    onTripClick: (Int?, Int?, String?) -> Unit = { _, _, _ -> }
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -105,7 +105,12 @@ fun TripsScreen(
                         }
                     } else {
                         items(uiState.upcomingTrips) { trip ->
-                            UpcomingTripCard(trip)
+                            UpcomingTripCard(
+                                trip = trip,
+                                onClick = {
+                                    onTripClick(trip.packageId, trip.bookingId, trip.orderId)
+                                }
+                            )
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                         item { Spacer(modifier = Modifier.height(8.dp)) }
@@ -143,7 +148,13 @@ fun TripsScreen(
                         }
                     } else {
                         items(uiState.previousTrips) { trip ->
-                            UpcomingTripCard(trip, showDaysToGo = false)
+                            UpcomingTripCard(
+                                trip = trip,
+                                showDaysToGo = false,
+                                onClick = {
+                                    onTripClick(trip.packageId, trip.bookingId, trip.orderId)
+                                }
+                            )
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                     }

@@ -11,6 +11,9 @@ fun TripDto.toDomain(): TripDomain {
 
     return TripDomain(
         tripId = (packageId ?: bookingId ?: 0).toString(),
+        packageId = packageId,
+        bookingId = bookingId,
+        orderId = orderId,
         tripName = packageTitle ?: bookingTitle ?: "Unnamed Trip",
         featuredImage = featuredImage,
         image = image,
