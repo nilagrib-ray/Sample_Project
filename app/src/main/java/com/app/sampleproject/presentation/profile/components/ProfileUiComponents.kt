@@ -70,7 +70,7 @@ fun ProfileActionCard(
                 imageVector = icon,
                 contentDescription = title,
                 tint = Color(0xFFFF6600),
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(28.dp)
             )
         }
     }

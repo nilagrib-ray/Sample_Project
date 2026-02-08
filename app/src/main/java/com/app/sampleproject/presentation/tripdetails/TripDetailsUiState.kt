@@ -9,6 +9,7 @@ data class TripDetailsUiState(
     val tripName: String = "",
     val description: String? = null,
     val featuredImage: String? = null,
+    val destinationImage: String? = null,
     val arrivalDate: String = "",
     val arrivalTime: String? = null,
     val departureDate: String = "",

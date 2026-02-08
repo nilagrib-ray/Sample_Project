@@ -13,9 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ContactSupport
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,10 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.app.sampleproject.R
 import com.app.sampleproject.domain.model.ContactDomain
 import com.app.sampleproject.domain.model.KeyContact
 
@@ -71,10 +72,10 @@ fun ContactItem(contact: ContactDomain) {
         }
 
         Icon(
-            imageVector = Icons.Default.Phone,
-            contentDescription = "Contact",
+            painter = painterResource(id = R.drawable.ic_whatsapp),
+            contentDescription = "WhatsApp",
             tint = Color.Black,
-            modifier = Modifier.size(32.dp)
+            modifier = Modifier.size(26.dp)
         )
     }
 }
@@ -118,7 +119,7 @@ fun SendFlareCard() {
             }
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ContactSupport,
+                imageVector = Icons.Default.AutoAwesome,
                 contentDescription = "Send Flare",
                 tint = Color.White,
                 modifier = Modifier.size(32.dp)
@@ -152,11 +153,20 @@ fun KeyContactItem(contact: KeyContact) {
             )
         }
 
-        Icon(
-            imageVector = if (contact.contactInfo != null) Icons.Default.Phone else Icons.Default.Call,
-            contentDescription = "Contact",
-            tint = Color.Black,
-            modifier = Modifier.size(32.dp)
-        )
+        if (contact.isWhatsApp) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_whatsapp),
+                contentDescription = "WhatsApp",
+                tint = Color.Black,
+                modifier = Modifier.size(26.dp)
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.Phone,
+                contentDescription = "Call",
+                tint = Color.Black,
+                modifier = Modifier.size(26.dp)
+            )
+        }
     }
 }

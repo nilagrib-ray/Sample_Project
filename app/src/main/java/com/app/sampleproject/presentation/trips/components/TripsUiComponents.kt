@@ -1,5 +1,6 @@
 package com.app.sampleproject.presentation.trips.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DoubleArrow
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -30,12 +31,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.app.sampleproject.domain.model.DestinationCategory
 import com.app.sampleproject.domain.model.TripDomain
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import com.app.sampleproject.domain.model.DestinationCategory
 
 @Composable
 fun SectionHeader(title: String) {
@@ -58,128 +59,121 @@ fun UpcomingTripCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        border = BorderStroke(1.dp, Color(0xFFE8E8E8)),
         onClick = onClick
     ) {
-        Box {
-            Column {
-                AsyncImage(
-                    model = trip.destinationImage ?: trip.featuredImage,
-                    contentDescription = trip.tripName,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(240.dp)
-                        .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                    contentScale = ContentScale.Crop
-                )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .padding(20.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Text(
-                                text = formatDate(trip.startDate),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black
-                            )
-                            Text(
-                                text = formatYear(trip.startDate),
-                                fontSize = 16.sp,
-                                color = Color.Gray
-                            )
-                        }
-
-                        Icon(
-                            imageVector = Icons.Default.DoubleArrow,
-                            contentDescription = "to",
-                            tint = Color(0xFFFF6600),
-                            modifier = Modifier.size(28.dp)
-                        )
-
-                        Column {
-                            Text(
-                                text = formatDate(trip.endDate),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black
-                            )
-                            Text(
-                                text = formatYear(trip.endDate),
-                                fontSize = 16.sp,
-                                color = Color.Gray
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 1.dp)
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = trip.tripName,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color.Black
-                    )
-                }
-            }
-
-            if (!trip.location.isNullOrEmpty()) {
-                Card(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White.copy(alpha = 0.5f)
-                    ),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 16.dp, top = 16.dp, bottom = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (!trip.location.isNullOrEmpty()) {
                     Text(
                         text = trip.location,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        fontStyle = FontStyle.Italic,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                 }
+
+                if (showDaysToGo) {
+                    val daysToGo = calculateDaysToGo(trip.startDate)
+                    if (daysToGo > 0) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    Color(0xFFFFF3E0),
+                                    RoundedCornerShape(8.dp)
+                                )
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                        ) {
+                            Text(
+                                text = "$daysToGo days  to go!",
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
             }
 
-            if (showDaysToGo) {
-                val daysToGo = calculateDaysToGo(trip.startDate)
-                if (daysToGo > 0) {
-                    Card(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color(0xFFFFF3E0)
-                        ),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
+            AsyncImage(
+                model = trip.destinationImage ?: trip.featuredImage,
+                contentDescription = trip.tripName,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .height(240.dp)
+                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp, bottomStart = 8.dp, bottomEnd = 8.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(20.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
                         Text(
-                            text = "$daysToGo days to go!",
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                            fontSize = 14.sp,
+                            text = formatDate(trip.startDate),
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Medium,
-                            fontStyle = FontStyle.Italic,
                             color = Color.Black
+                        )
+                        Text(
+                            text = formatYear(trip.startDate),
+                            fontSize = 16.sp,
+                            color = Color.Gray
+                        )
+                    }
+
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "to",
+                        tint = Color(0xFFFF6600),
+                        modifier = Modifier.size(24.dp)
+                    )
+
+                    Column {
+                        Text(
+                            text = formatDate(trip.endDate),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black
+                        )
+                        Text(
+                            text = formatYear(trip.endDate),
+                            fontSize = 16.sp,
+                            color = Color.Gray
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 1.dp)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = trip.tripName,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black
+                )
             }
         }
     }
@@ -268,35 +262,33 @@ fun DestinationCard(
     onClick: () -> Unit = {}
 ) {
     Card(
-        modifier = Modifier.width(240.dp),
+        modifier = Modifier.width(180.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        border = BorderStroke(1.dp, Color(0xFFE8E8E8)),
         onClick = onClick
     ) {
         Column {
+            Text(
+                text = destination.categoryName,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
+            )
+
             AsyncImage(
                 model = destination.imageUrl.ifEmpty {
                     destination.squareImageUrl },
                 contentDescription = destination.categoryName,
                 modifier = Modifier
-                    .width(240.dp)
-                    .height(280.dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp, bottomStart = 8.dp, bottomEnd = 8.dp)),
                 contentScale = ContentScale.Crop
             )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = destination.categoryName,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }

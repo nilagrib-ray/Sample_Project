@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ContactSupport
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.outlined.PersonOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,7 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -82,21 +86,21 @@ fun ProfileScreen(
                         text = "Profile",
                         fontWeight = FontWeight.Bold,
                         fontSize = 32.sp,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 actions = {
                     Icon(
-                        imageVector = Icons.Default.FilterList,
+                        imageVector = Icons.Default.Tune,
                         contentDescription = "Settings",
-                        tint = Color.White,
+                        tint = Color.Black,
                         modifier = Modifier
-                            .size(56.dp)
+                            .size(48.dp)
                             .padding(end = 16.dp)
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black
+                    containerColor = Color.White
                 )
             )
         }
@@ -105,68 +109,57 @@ fun ProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color.White),
+                .background(Color.White)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Box(
-                modifier = Modifier.size(240.dp),
+                modifier = Modifier.size(280.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .size(240.dp)
-                        .blur(40.dp)
+                        .size(200.dp)
+                        .blur(
+                            radiusX = 50.dp,
+                            radiusY = 50.dp,
+                            edgeTreatment = BlurredEdgeTreatment.Unbounded
+                        )
                         .background(
-                            brush = Brush.radialGradient(
+                            brush = Brush.linearGradient(
                                 colors = listOf(
-                                    Color(0xFFFF0099).copy(alpha = 0.6f),
-                                    Color(0xFFFF6600).copy(alpha = 0.4f),
-                                    Color.Transparent
-                                )
+                                    Color(0xFFFF0099),
+                                    Color(0xFFFF6600)
+                                ),
+                                start = Offset.Zero,
+                                end = Offset.Infinite
                             ),
                             shape = CircleShape
                         )
                 )
-
+                
                 Box(
                     modifier = Modifier
-                        .size(200.dp)
-                        .background(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    Color(0xFFFF0099).copy(alpha = 0.15f),
-                                    Color(0xFFFF6600).copy(alpha = 0.1f),
-                                    Color.Transparent
-                                ),
-                                radius = 400f
-                            ),
-                            shape = CircleShape
-                        ),
+                        .size(190.dp)
+                        .background(Color.White, CircleShape)
+                        .border(1.dp, Color(0xFFF0F0F0), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(190.dp)
-                            .background(Color.White, CircleShape)
-                            .border(1.dp, Color(0xFFF0F0F0), CircleShape),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.AccountCircle,
-                            contentDescription = "Profile",
-                            tint = Color(0xFFCCCCCC),
-                            modifier = Modifier.size(120.dp)
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Outlined.PersonOutline,
+                        contentDescription = "Profile",
+                        tint = Color(0xFFCCCCCC),
+                        modifier = Modifier.size(120.dp)
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Developer", // uiState.userName ?:
+                text = "Developer",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
@@ -175,7 +168,7 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = uiState.userEmail ?: "",
+                text = uiState.userEmail,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color(0xFF666666)
@@ -198,7 +191,7 @@ fun ProfileScreen(
             ProfileActionCard(
                 label = "Make a change",
                 title = "Update Details",
-                icon = Icons.Default.AccountCircle,
+                icon = Icons.Outlined.PersonOutline,
                 onClick = { /* TODO */ }
             )
 
@@ -207,7 +200,7 @@ fun ProfileScreen(
             ProfileActionCard(
                 label = "Got a question?",
                 title = "View our FAQ's",
-                icon = Icons.AutoMirrored.Filled.HelpOutline,
+                icon = Icons.AutoMirrored.Filled.Help,
                 onClick = { /* TODO */ }
             )
 
@@ -216,7 +209,7 @@ fun ProfileScreen(
             ProfileActionCard(
                 label = "Need help?",
                 title = "Send a Flare",
-                icon = Icons.AutoMirrored.Filled.ContactSupport,
+                icon = Icons.Default.AutoAwesome,
                 onClick = { /* TODO */ }
             )
 

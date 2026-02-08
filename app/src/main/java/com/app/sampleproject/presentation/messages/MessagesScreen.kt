@@ -12,8 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -49,7 +48,7 @@ fun MessagesScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     val keyContacts = listOf(
-        KeyContact("Party Hard", "UK Office Team"),
+        KeyContact("Party Hard", "UK Office Team", isWhatsApp = true),
         KeyContact("Party Hard Emergency Number", uiState.globalEmergencyNumber, uiState.globalEmergencyNumber),
         KeyContact("Local Emergency Services", "Ambulance / Fire / Police")
     )
@@ -62,29 +61,21 @@ fun MessagesScreen(
                         text = "Messages",
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
                 actions = {
-                    IconButton(onClick = { viewModel.loadContacts() }) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "Refresh",
-                            tint = Color.White,
-                            modifier = Modifier.size(28.dp)
-                        )
-                    }
                     IconButton(onClick = { /* TODO: Notifications */ }) {
                         Icon(
-                            imageVector = Icons.Default.Notifications,
+                            imageVector = Icons.Outlined.Notifications,
                             contentDescription = "Notifications",
-                            tint = Color.White,
-                            modifier = Modifier.size(28.dp)
+                            tint = Color.Black,
+                            modifier = Modifier.size(36.dp)
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black
+                    containerColor = Color.White
                 )
             )
         }
@@ -105,7 +96,7 @@ fun MessagesScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     item {
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = if (uiState.destinationName.isNotBlank()) {
                                 "${uiState.destinationName} Reps"
@@ -190,4 +181,3 @@ fun MessagesScreen(
         }
     }
 }
-

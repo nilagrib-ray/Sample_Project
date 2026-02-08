@@ -24,5 +24,6 @@ data class ContactsDomain(
 data class KeyContact(
     val name: String,
     val subtitle: String,
-    val contactInfo: String? = null
+    val contactInfo: String? = null,
+    val isWhatsApp: Boolean = false
 )

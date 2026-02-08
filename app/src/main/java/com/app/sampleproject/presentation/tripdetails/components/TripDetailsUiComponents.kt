@@ -2,6 +2,7 @@ package com.app.sampleproject.presentation.tripdetails.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +14,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -24,12 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.app.sampleproject.domain.model.ActionRequired
 import com.app.sampleproject.domain.model.Traveller
 
@@ -93,7 +94,7 @@ fun ActionRequiredCard(action: ActionRequired, onClick: () -> Unit = {}) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.Warning,
+                imageVector = Icons.Outlined.Error,
                 contentDescription = "Action Required",
                 tint = Color(0xFFFF6600),
                 modifier = Modifier.size(32.dp)
@@ -108,7 +109,7 @@ fun ActionRequiredCard(action: ActionRequired, onClick: () -> Unit = {}) {
                 )
             }
             Icon(
-                imageVector = Icons.Default.ArrowForward,
+                imageVector = Icons.Default.ChevronRight,
                 contentDescription = "Go",
                 tint = Color.Black,
                 modifier = Modifier.size(24.dp)
@@ -122,7 +123,7 @@ fun TravellerCard(traveller: Traveller) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp),
+            .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -150,6 +151,126 @@ fun TravellerCard(traveller: Traveller) {
                     color = Color(0xFFFF6600)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun DestinationLinkCard(destinationName: String, onClick: () -> Unit = {}) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+        onClick = onClick
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Discover your resort",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = destinationName,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color(0xFFFF6600)
+                )
+            }
+            Icon(
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = "Go",
+                tint = Color.Black,
+                modifier = Modifier.size(28.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun LinkFriendsCard(onClick: () -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color(0xFFFF8800),
+                        Color(0xFFFF6600),
+                        Color(0xFFFF5500)
+                    )
+                )
+            )
+            .padding(vertical = 16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Link with friends bookings",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+fun SectionHeaderRow(
+    icon: ImageVector,
+    title: String,
+    iconTint: Color = Color.Black,
+    trailingText: String? = null,
+    trailingIcon: ImageVector? = null
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = iconTint,
+                modifier = Modifier.size(28.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+        }
+        if (trailingText != null) {
+            Text(
+                text = trailingText,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color(0xFFFF6600)
+            )
+        }
+        if (trailingIcon != null) {
+            Icon(
+                imageVector = trailingIcon,
+                contentDescription = null,
+                tint = Color.Black,
+                modifier = Modifier.size(28.dp)
+            )
         }
     }
 }
@@ -185,77 +306,7 @@ fun InfoCard(
     }
 }
 
-@Composable
-fun DestinationLinkCard(destinationName: String, onClick: () -> Unit = {}) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Black),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = onClick
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Discover your resort",
-                    fontSize = 14.sp,
-                    color = Color(0xFFFF6600)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = destinationName,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            }
-            Icon(
-                imageVector = Icons.Default.ArrowForward,
-                contentDescription = "Go",
-                tint = Color.White,
-                modifier = Modifier.size(28.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun LinkFriendsCard(onClick: () -> Unit = {}) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFFF6600)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = onClick
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Link with friends bookings",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White
-            )
-        }
-    }
-}
-
-fun formatDateForDisplay(dateString: String): String {
+fun formatDateDayMonth(dateString: String): String {
     return try {
         val parts = dateString.split("-")
         if (parts.size == 3) {
@@ -275,12 +326,44 @@ fun formatDateForDisplay(dateString: String): String {
                 "12" -> "December"
                 else -> parts[1]
             }
-            val year = parts[0]
-            "$day/$month/$year"
+            "$day $month"
         } else {
             dateString
         }
     } catch (_: Exception) {
         dateString
     }
+}
+
+fun formatDateYear(dateString: String): String {
+    return try {
+        val parts = dateString.split("-")
+        if (parts.size == 3) parts[0] else dateString
+    } catch (_: Exception) {
+        dateString
+    }
+}
+
+fun formatDateNumeric(dateString: String): String {
+    return try {
+        val parts = dateString.split("-")
+        if (parts.size == 3) {
+            "${parts[2]}/${parts[1]}/${parts[0]}"
+        } else {
+            dateString
+        }
+    } catch (_: Exception) {
+        dateString
+    }
+}
+
+fun formatAmount(amount: String?): String {
+    if (amount.isNullOrEmpty()) return "0.00"
+    val value = amount.toDoubleOrNull()
+    return if (value != null) String.format("%.2f", value) else amount
+}
+
+@Deprecated("Use formatDateNumeric instead", replaceWith = ReplaceWith("formatDateNumeric(dateString)"))
+fun formatDateForDisplay(dateString: String): String {
+    return formatDateNumeric(dateString)
 }

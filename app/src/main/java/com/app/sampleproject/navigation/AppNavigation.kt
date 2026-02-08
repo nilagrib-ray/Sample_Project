@@ -1,15 +1,20 @@
 package com.app.sampleproject.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.automirrored.outlined.Message
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.FlightTakeoff
-import androidx.compose.material.icons.filled.Message
-import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.FlightTakeoff
-import androidx.compose.material.icons.outlined.Message
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -18,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -74,8 +80,8 @@ val bottomNavItems = listOf(
     BottomNavItem(
         route = Screen.Profile.route,
         title = "Profile",
-        selectedIcon = Icons.Filled.AccountCircle,
-        unselectedIcon = Icons.Outlined.AccountCircle
+        selectedIcon = Icons.Filled.Person,
+        unselectedIcon = Icons.Outlined.Person
     )
 )
 
@@ -146,7 +152,7 @@ fun MainScreen(
             NavigationBar(
                 containerColor = Color.White,
                 contentColor = Color.Black,
-                tonalElevation = 8.dp
+                tonalElevation = 0.dp
             ) {
                 bottomNavItems.forEach { item ->
                     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
@@ -166,22 +172,36 @@ fun MainScreen(
                             Icon(
                                 imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
                                 contentDescription = item.title,
-                                tint = if (selected) Color(0xFFFF6600) else Color.Black
+                                tint = if (selected) Color(0xFFFF6600) else Color(0xFF666666)
                             )
                         },
                         label = {
-                            Text(
-                                text = item.title,
-                                fontSize = 12.sp,
-                                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
-                                color = if (selected) Color(0xFFFF6600) else Color.Black
-                            )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = item.title,
+                                    fontSize = 12.sp,
+                                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+                                    color = if (selected) Color(0xFFFF6600) else Color(0xFF666666)
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .width(40.dp)
+                                        .height(2.dp)
+                                        .background(
+                                            color = if (selected) Color(0xFFFF6600) else Color.Transparent,
+                                            shape = RoundedCornerShape(1.dp)
+                                        )
+                                )
+                            }
                         },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = Color(0xFFFF6600),
                             selectedTextColor = Color(0xFFFF6600),
-                            unselectedIconColor = Color.Black,
-                            unselectedTextColor = Color.Black,
+                            unselectedIconColor = Color(0xFF666666),
+                            unselectedTextColor = Color(0xFF666666),
                             indicatorColor = Color.Transparent
                         )
                     )

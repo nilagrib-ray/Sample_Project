@@ -57,6 +57,7 @@ class TripDetailsViewModel @Inject constructor(
                             tripName = tripDetails.tripName,
                             description = tripDetails.description,
                             featuredImage = tripDetails.featuredImage ?: tripDetails.image,
+                            destinationImage = tripDetails.destinationImage,
                             arrivalDate = tripDetails.arrivalDate,
                             arrivalTime = tripDetails.arrivalTime,
                             departureDate = tripDetails.departureDate,

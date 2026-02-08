@@ -4,24 +4,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.FlightTakeoff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -58,21 +59,11 @@ fun TripsScreen(
                         text = "Trips",
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
-                        color = Color.White
+                        color = Color.Black
                     )
                 },
-                actions = {
-                    IconButton(onClick = { viewModel.loadAllTrips() }) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "Refresh",
-                            tint = Color.White,
-                            modifier = Modifier.size(28.dp)
-                        )
-                    }
-                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black
+                    containerColor = Color.White
                 )
             )
         }
@@ -81,7 +72,7 @@ fun TripsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFFAFAFA))
+                .background(Color.White)
         ) {
             if (uiState.isLoading) {
                 CircularProgressIndicator(
@@ -94,7 +85,7 @@ fun TripsScreen(
                     contentPadding = PaddingValues(vertical = 20.dp)
                 ) {
                     item {
-                        SectionHeader("Upcoming Trips")
+                        SectionHeader("Upcoming")
                         Spacer(modifier = Modifier.height(12.dp))
                     }
 
@@ -117,13 +108,30 @@ fun TripsScreen(
                     }
 
                     item {
-                        SectionHeader("Next Trip")
+                        Row(
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.FlightTakeoff,
+                                contentDescription = null,
+                                tint = Color(0xFFFF6600),
+                                modifier = Modifier.size(28.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "Book your next trip",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        }
                         Spacer(modifier = Modifier.height(12.dp))
                     }
 
                     item {
                         if (uiState.destinations.isEmpty()) {
-                            EmptyStateCard("No next trips available")
+                            EmptyStateCard("No trips available")
                         } else {
                             LazyRow(
                                 contentPadding = PaddingValues(horizontal = 20.dp),
@@ -144,7 +152,13 @@ fun TripsScreen(
 
                     if (uiState.previousTrips.isEmpty()) {
                         item {
-                            EmptyStateCard("You don't have any previous trips")
+                            Text(
+                                text = "You don't have any previous trips",
+                                modifier = Modifier.padding(horizontal = 20.dp),
+                                fontSize = 16.sp,
+                                color = Color.Black,
+                                fontWeight = FontWeight.Normal
+                            )
                         }
                     } else {
                         items(uiState.previousTrips) { trip ->
