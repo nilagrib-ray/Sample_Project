@@ -22,6 +22,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +34,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.sampleproject.domain.model.ActionRequired
 import com.app.sampleproject.domain.model.Traveller
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapType
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun CountdownCard(days: Int, hours: Int, minutes: Int) {
@@ -366,4 +376,53 @@ fun formatAmount(amount: String?): String {
 @Deprecated("Use formatDateNumeric instead", replaceWith = ReplaceWith("formatDateNumeric(dateString)"))
 fun formatDateForDisplay(dateString: String): String {
     return formatDateNumeric(dateString)
+}
+
+@Composable
+fun DestinationMap(
+    latitude: Double,
+    longitude: Double,
+    destinationName: String,
+    modifier: Modifier = Modifier
+) {
+    val destinationLocation = LatLng(latitude, longitude)
+
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(destinationLocation, 13f)
+    }
+
+    val mapProperties = remember {
+        MapProperties(
+            mapType = MapType.NORMAL,
+            isMyLocationEnabled = false
+        )
+    }
+
+    val uiSettings = remember {
+        MapUiSettings(
+            zoomControlsEnabled = false,
+            myLocationButtonEnabled = false,
+            compassEnabled = true,
+            mapToolbarEnabled = true,
+            scrollGesturesEnabled = true,
+            zoomGesturesEnabled = true
+        )
+    }
+
+    GoogleMap(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .padding(horizontal = 20.dp)
+            .clip(RoundedCornerShape(12.dp)),
+        cameraPositionState = cameraPositionState,
+        properties = mapProperties,
+        uiSettings = uiSettings
+    ) {
+        Marker(
+            state = MarkerState(position = destinationLocation),
+            title = destinationName,
+            snippet = "Your destination"
+        )
+    }
 }
